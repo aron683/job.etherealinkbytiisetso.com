@@ -38,7 +38,7 @@
 </nav>
 
 <div id="searchBox">
-  <input type="text" id="searchInput" placeholder="🔍 Search job titles (e.g. driver, admin, remote)">
+  <div style="display:flex; justify-content:center; gap:5px;"><input type="text" id="searchInput" placeholder="🔍 e.g. driver, admin" style="flex:1; padding:10px; border-radius:8px; border:1px solid #004440;"><button onclick="fetchJobs(document.getElementById('searchInput').value)" style="background:#004440; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer;">Search</button></div>
 </div>
 
 <div id="results">⏳ Loading jobs...</div>
@@ -47,7 +47,7 @@
   <span id="liveViewers">100 people viewing now</span><br>
   Built by Tiisetso | © 2025 JobSniper X<br>
   Monetized via ShrinkMe | Powered by RapidAPI & AI Bot<br>
-  📧 Contact: jobs@etherealink.com
+  📧 Contact: etherealinkbytiisetso@gmail.com
 </footer>
 
 <!-- 🌐 Language Switch -->
@@ -124,13 +124,13 @@ function jobBot() {
       apply: "📝 Tap 'Apply Now' under any job.",
       driver: "🚕 Search 'driver' in the bar above.",
       help: "👋 Type what job you need, I'll help.",
-      contact: "📩 Email us at jobs@etherealink.com",
+      contact: "📩 Email us at etherealinkbytiisetso@gmail.com",
       default: "🤖 Ask me about jobs or how to apply!"
     },
-    zu: { apply: "📝 Chofoza 'Apply Now'", driver: "🚕 Sesha 'driver' phezulu.", help: "👋 Ngizokusiza. Buza nje.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ngemisebenzi." },
-    st: { apply: "📝 Tobetsa 'Apply Now'", driver: "🚕 Batla 'driver' holimo.", help: "👋 Re botse. Ke teng.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ka mesebetsi." },
-    xh: { apply: "📝 Cofa 'Apply Now'", driver: "🚕 Bhala 'driver' phezulu.", help: "👋 Ndilapha ukukunceda.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ngemisebenzi." },
-    af: { apply: "📝 Klik 'Apply Now'", driver: "🚕 Tik 'driver' bo.", help: "👋 Ek help jou nou-nou.", contact: "📩 jobs@etherealink.com", default: "🤖 Vra enige vraag." }
+    zu: { apply: "📝 Chofoza 'Apply Now'", driver: "🚕 Sesha 'driver' phezulu.", help: "👋 Ngizokusiza. Buza nje.", contact: "📩 etherealinkbytiisetso@gmail.com", default: "🤖 Buza ngemisebenzi." },
+    st: { apply: "📝 Tobetsa 'Apply Now'", driver: "🚕 Batla 'driver' holimo.", help: "👋 Re botse. Ke teng.", contact: "📩 etherealinkbytiisetso@gmail.com", default: "🤖 Buza ka mesebetsi." },
+    xh: { apply: "📝 Cofa 'Apply Now'", driver: "🚕 Bhala 'driver' phezulu.", help: "👋 Ndilapha ukukunceda.", contact: "📩 etherealinkbytiisetso@gmail.com", default: "🤖 Buza ngemisebenzi." },
+    af: { apply: "📝 Klik 'Apply Now'", driver: "🚕 Tik 'driver' bo.", help: "👋 Ek help jou nou-nou.", contact: "📩 etherealinkbytiisetso@gmail.com", default: "🤖 Vra enige vraag." }
   };
 
   const replies = t[lang] || t.en;
