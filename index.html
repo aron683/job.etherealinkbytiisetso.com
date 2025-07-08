@@ -1,41 +1,53 @@
+<!-- SAVE THIS AS index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JobSniper X | Premium Jobs</title>
-  <meta name="description" content="Sniping premium jobs with real‑time updates. Built for hustlers.">
+  <title>JobSniper X | Premium Hustler Jobs</title>
+  <meta name="description" content="Sniping real jobs with AI, fast & smart. Powered by RapidAPI.">
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f4f4; margin:0; padding:0; }
+    body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; padding: 0; }
     header, footer { background: #004440; color: white; text-align: center; padding: 20px; }
-    #results { padding:10px; }
-    .job-card { background:#fff; margin:10px 0; padding:15px; border-left:4px solid #004440; border-radius:4px; }
-    .job-card a { color:#004440; text-decoration:none; font-weight:bold; }
-    .job-card a:hover { text-decoration:underline; }
-    #liveViewers { position:fixed; bottom:15px; left:15px; background:#004440; color:white; padding:5px 10px; border-radius:5px; }
-
-    #botBox { position:fixed; bottom:75px; right:15px; width:280px; background:#fff; border:2px solid #004440; border-radius:10px; box-shadow:0 0 10px #aaa; padding:10px; font-family:sans-serif; z-index:9999; }
-    #chatLog { max-height:100px; overflow:auto; font-size:14px; margin-top:5px; }
-    #chatInput { width:100%; margin-top:5px; padding:5px; border:1px solid #ccc; border-radius:5px; }
-    #langBox { position:fixed; bottom:140px; right:20px; font-size:14px; z-index:9999; background:#fff; padding:5px; border-radius:5px; border:1px solid #ccc; }
+    #results { padding: 10px; }
+    .job-card { background: white; margin: 10px 0; padding: 15px; border-left: 4px solid #004440; border-radius: 4px; }
+    .job-card a { color: #004440; text-decoration: none; font-weight: bold; }
+    .job-card a:hover { text-decoration: underline; }
+    #liveViewers { position: fixed; bottom: 15px; left: 15px; background: #004440; color: white; padding: 5px 10px; border-radius: 5px; }
+    #botBox { position: fixed; bottom: 75px; right: 15px; width: 240px; background: #fff; border: 2px solid #004440; border-radius: 10px; box-shadow: 0 0 10px #aaa; padding: 10px; font-size: 12px; z-index: 9999; }
+    #chatLog { max-height: 80px; overflow-y: auto; font-size: 13px; margin-top: 5px; }
+    #chatInput { width: 100%; margin-top: 5px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; }
+    #langBox { position: fixed; bottom: 140px; right: 20px; font-size: 14px; background: white; padding: 5px; border: 1px solid #ccc; border-radius: 5px; z-index: 9999; }
+    #searchBox { padding: 15px; text-align: center; background: #fff; }
+    #searchInput { width: 90%; padding: 10px; font-size: 16px; border-radius: 8px; border: 1px solid #004440; }
+    nav { background: #004440; text-align: center; padding: 10px; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 <header>
   <h1>JobSniper X</h1>
-  <p>Sniping premium jobs – fast, mobile & AI smart!</p>
+  <p>Sniping real jobs fast with AI smarts!</p>
 </header>
 
-<div style="text-align:center; margin-top:10px;">
-  <a href="https://shrinkme.ink/TGmiWcp" target="_blank">💎 Unlock Premium Jobs Here</a>
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="about.html">📖 About</a>
+  <a href="contact.html">📩 Contact</a>
+</nav>
+
+<div id="searchBox">
+  <input type="text" id="searchInput" placeholder="🔍 Search job titles (e.g. driver, admin, remote)">
 </div>
 
-<div id="results"></div>
+<div id="results">⏳ Loading jobs...</div>
 
 <footer>
   <span id="liveViewers">100 people viewing now</span><br>
   Built by Tiisetso | © 2025 JobSniper X<br>
-  Monetized via ShrinkMe & Powered by Local AI Bot
+  Monetized via ShrinkMe | Powered by RapidAPI & AI Bot<br>
+  📧 Contact: jobs@etherealink.com
 </footer>
 
 <!-- 🌐 Language Switch -->
@@ -50,119 +62,91 @@
   </select>
 </div>
 
-<!-- 🤖 JobBot Assistant -->
+<!-- 🤖 AI JobBot -->
 <div id="botBox">
-  <strong>💬 JobBot Assistant</strong>
+  <strong>💬 Ask JobBot</strong>
   <div id="chatLog">Hi! Ask me how to apply, or search jobs.</div>
   <input type="text" id="chatInput" placeholder="Ask something..." onkeydown="if(event.key==='Enter') jobBot()">
 </div>
 
 <script>
-  const SHRINKME = "https://shrinkme.ink/TGmiWcp";
+const RAPID_API_KEY = "be05ad0d85mshe8a36833da7731ep19fffbjsne1c412115bbc";
+const resultsDiv = document.getElementById("results");
 
-  // Auto Job Loader
-  async function fetchJobs() {
-    const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = "⏳ Loading jobs...";
-    try {
-      const res = await fetch("https://www.arbeitnow.com/api/job-board-api");
-      const data = await res.json();
-      const jobs = data.data || [];
-
-      if (jobs.length === 0) {
-        resultsDiv.innerHTML = "❌ No jobs found.";
-        return;
-      }
-
-      resultsDiv.innerHTML = "";
-      jobs.slice(0, 10).forEach((job, i) => {
-        const premium = i % 3 === 0 ? `✅ PREMIUM – <a href="${SHRINKME}" target="_blank">Unlock</a>` : "FREE";
-        resultsDiv.innerHTML += `
-          <div class="job-card">
-            <h3>${job.title}</h3>
-            <p><strong>Company:</strong> ${job.company_name}</p>
-            <p><strong>Location:</strong> ${job.location}</p>
-            <p><strong>Level:</strong> ${premium}</p>
-            <a href="${job.url}" target="_blank">Apply Now</a>
-          </div>
-        `;
-      });
-    } catch {
-      resultsDiv.innerHTML = "⚠️ Could not load jobs. Try again later.";
+async function fetchJobs(query = "driver") {
+  resultsDiv.innerHTML = "⏳ Searching for '" + query + "'...";
+  const res = await fetch("https://jsearch.p.rapidapi.com/search?query=" + encodeURIComponent(query) + "&num_pages=1", {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": RAPID_API_KEY,
+      "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
     }
+  });
+  const data = await res.json();
+  const jobs = data.data || [];
+  if (jobs.length === 0) {
+    resultsDiv.innerHTML = "❌ No jobs found.";
+    return;
   }
+  resultsDiv.innerHTML = "";
+  jobs.forEach((job, i) => {
+    const premium = i % 2 === 0 ? `✅ PREMIUM – <a href="https://shrinkme.ink/TGmiWcp" target="_blank">Unlock</a>` : "FREE";
+    resultsDiv.innerHTML += `
+      <div class="job-card">
+        <h3>${job.job_title}</h3>
+        <p><strong>Company:</strong> ${job.employer_name}</p>
+        <p><strong>Location:</strong> ${job.job_city || 'Anywhere'}</p>
+        <p><strong>Level:</strong> ${premium}</p>
+        <a href="${job.job_apply_link}" target="_blank">Apply Now</a>
+      </div>
+    `;
+  });
+}
 
-  // Viewers Counter
-  let viewers = Math.floor(Math.random() * 50) + 100;
-  setInterval(() => {
-    viewers += Math.floor(Math.random() * 4);
-    document.getElementById("liveViewers").textContent = viewers + " people viewing now";
-  }, 8000);
+document.getElementById("searchInput").addEventListener("input", e => {
+  fetchJobs(e.target.value);
+});
 
-  // Multilingual JobBot
-  function jobBot() {
-    const user = document.getElementById("chatInput").value.toLowerCase();
-    const log = document.getElementById("chatLog");
-    const lang = document.getElementById("langSelect").value;
+let viewers = Math.floor(Math.random() * 50) + 100;
+setInterval(() => {
+  viewers += Math.floor(Math.random() * 3);
+  document.getElementById("liveViewers").textContent = viewers + " people viewing now";
+}, 8000);
 
-    const t = {
-      en: {
-        apply: "📝 Tap 'Apply Now' under the job you want.",
-        driver: "🔎 Try scrolling below to find driver jobs.",
-        help: "👋 I'm here to help you apply. Try 'how do I apply?'",
-        premium: "🔓 Premium jobs require unlock link.",
-        contact: "📩 Contact: jobs@etherealink.com",
-        default: "🤖 Try asking about jobs, applying, or contact."
-      },
-      zu: {
-        apply: "📝 Chofoza 'Apply Now' ukuze ufake isicelo.",
-        driver: "🔎 Sesha izikhundla ezifanele ezansi.",
-        help: "👋 Ngikhona ukukusiza. Buza 'ngifaka kanjani isicelo?'",
-        premium: "🔓 Imisebenzi ye-premium idinga isixhumanisi.",
-        contact: "📩 Xhumana: jobs@etherealink.com",
-        default: "🤖 Buza mayelana nemisebenzi noma isicelo."
-      },
-      st: {
-        apply: "📝 Tobetsa 'Apply Now' ho etsa kopo.",
-        driver: "🔎 Batla mesebetsi e loketseng ka tlase.",
-        help: "👋 Ke teng ho thusa. Botsa 'ke etsa kopo joang?'",
-        premium: "🔓 Mesebetsi ea premium e hloka sehokelo.",
-        contact: "📩 Iteanye: jobs@etherealink.com",
-        default: "🤖 Botsa ka mesebetsi kapa ts'ehetso."
-      },
-      xh: {
-        apply: "📝 Cofa 'Apply Now' ukuze ufake isicelo.",
-        driver: "🔎 Jonga ezantsi imisebenzi yezemoto.",
-        help: "👋 Ndilapha ukukunceda. Buza 'ndifaka njani isicelo?'",
-        premium: "🔓 Imisebenzi ye-premium ifuna ikhonkco.",
-        contact: "📩 Qhagamshelana: jobs@etherealink.com",
-        default: "🤖 Buza ngemisebenzi, isicelo okanye uncedo."
-      },
-      af: {
-        apply: "📝 Klik 'Apply Now' om aansoek te doen.",
-        driver: "🔎 Kyk onder vir bestuurder poste.",
-        help: "👋 Ek is hier om te help. Vra 'hoe doen ek aansoek?'",
-        premium: "🔓 Premium poste moet ontsluit word.",
-        contact: "📩 Kontak: jobs@etherealink.com",
-        default: "🤖 Vra oor werksgeleenthede of aansoeke."
-      }
-    };
+// === Mini AI Bot ===
+function jobBot() {
+  const user = document.getElementById("chatInput").value.toLowerCase();
+  const log = document.getElementById("chatLog");
+  const lang = document.getElementById("langSelect").value;
 
-    const replies = t[lang] || t.en;
-    let response = replies.default;
-    if (user.includes("apply")) response = replies.apply;
-    else if (user.includes("driver") || user.includes("admin") || user.includes("remote")) response = replies.driver;
-    else if (user.includes("help")) response = replies.help;
-    else if (user.includes("premium")) response = replies.premium;
-    else if (user.includes("contact")) response = replies.contact;
+  const t = {
+    en: {
+      apply: "📝 Tap 'Apply Now' under any job.",
+      driver: "🚕 Search 'driver' in the bar above.",
+      help: "👋 Type what job you need, I'll help.",
+      contact: "📩 Email us at jobs@etherealink.com",
+      default: "🤖 Ask me about jobs or how to apply!"
+    },
+    zu: { apply: "📝 Chofoza 'Apply Now'", driver: "🚕 Sesha 'driver' phezulu.", help: "👋 Ngizokusiza. Buza nje.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ngemisebenzi." },
+    st: { apply: "📝 Tobetsa 'Apply Now'", driver: "🚕 Batla 'driver' holimo.", help: "👋 Re botse. Ke teng.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ka mesebetsi." },
+    xh: { apply: "📝 Cofa 'Apply Now'", driver: "🚕 Bhala 'driver' phezulu.", help: "👋 Ndilapha ukukunceda.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ngemisebenzi." },
+    af: { apply: "📝 Klik 'Apply Now'", driver: "🚕 Tik 'driver' bo.", help: "👋 Ek help jou nou-nou.", contact: "📩 jobs@etherealink.com", default: "🤖 Vra enige vraag." }
+  };
 
-    log.innerHTML += `<div><strong>You:</strong> ${user}</div><div><strong>Bot:</strong> ${response}</div><br>`;
-    document.getElementById("chatInput").value = "";
-    log.scrollTop = log.scrollHeight;
-  }
+  const replies = t[lang] || t.en;
+  let response = replies.default;
+  if (user.includes("apply")) response = replies.apply;
+  else if (user.includes("driver")) response = replies.driver;
+  else if (user.includes("help")) response = replies.help;
+  else if (user.includes("contact")) response = replies.contact;
 
-  // Auto load jobs
-  fetchJobs();
+  log.innerHTML += `<div><strong>You:</strong> ${user}</div><div><strong>Bot:</strong> ${response}</div><br>`;
+  document.getElementById("chatInput").value = "";
+  log.scrollTop = log.scrollHeight;
+}
+
+// Start with default jobs
+fetchJobs();
 </script>
 </body>
 </html>
