@@ -1,4 +1,3 @@
-<!-- SAVE THIS AS index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,53 +5,596 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>JobSniper X | Premium Hustler Jobs</title>
   <meta name="description" content="Sniping real jobs with AI, fast & smart. Powered by RapidAPI.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; padding: 0; }
-    header, footer { background: #004440; color: white; text-align: center; padding: 20px; }
-    #results { padding: 10px; }
-    .job-card { background: white; margin: 10px 0; padding: 15px; border-left: 4px solid #004440; border-radius: 4px; }
-    .job-card a { color: #004440; text-decoration: none; font-weight: bold; }
-    .job-card a:hover { text-decoration: underline; }
-    #liveViewers { position: fixed; bottom: 15px; left: 15px; background: #004440; color: white; padding: 5px 10px; border-radius: 5px; }
-    #botBox { position: fixed; bottom: 75px; right: 15px; width: 240px; background: #fff; border: 2px solid #004440; border-radius: 10px; box-shadow: 0 0 10px #aaa; padding: 10px; font-size: 12px; z-index: 9999; }
-    #chatLog { max-height: 80px; overflow-y: auto; font-size: 13px; margin-top: 5px; }
-    #chatInput { width: 100%; margin-top: 5px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; }
-    #langBox { position: fixed; bottom: 140px; right: 20px; font-size: 14px; background: white; padding: 5px; border: 1px solid #ccc; border-radius: 5px; z-index: 9999; }
-    #searchBox { padding: 15px; text-align: center; background: #fff; }
-    #searchInput { width: 90%; padding: 10px; font-size: 16px; border-radius: 8px; border: 1px solid #004440; }
-    nav { background: #004440; text-align: center; padding: 10px; }
-    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
-    nav a:hover { text-decoration: underline; }
+    :root {
+      --primary: #004440;
+      --secondary: #00A896;
+      --accent: #FF9F1C;
+      --light: #F0F3F5;
+      --dark: #1D2D35;
+      --success: #25A18E;
+      --danger: #E71D36;
+      --gray: #6C757D;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ee 100%);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    /* Header Styles */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, #00332f 100%);
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2300a896' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    
+    .logo {
+      font-size: 2.5rem;
+      margin-right: 15px;
+      color: var(--accent);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 5px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    
+    .tagline {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Navigation */
+    nav {
+      background: white;
+      padding: 12px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    nav a {
+      color: var(--primary);
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 8px 16px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+    
+    nav a:hover {
+      background: var(--light);
+      color: var(--secondary);
+      transform: translateY(-2px);
+    }
+    
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    
+    /* Search Section */
+    #searchBox {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .search-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .search-container {
+      display: flex;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    #searchInput {
+      flex: 1;
+      padding: 16px 20px;
+      font-size: 1.1rem;
+      border-radius: 10px 0 0 10px;
+      border: 2px solid var(--primary);
+      border-right: none;
+      outline: none;
+      transition: all 0.3s;
+    }
+    
+    #searchInput:focus {
+      box-shadow: 0 0 0 3px rgba(0, 68, 64, 0.2);
+    }
+    
+    #searchButton {
+      padding: 0 25px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+    
+    #searchButton:hover {
+      background: var(--secondary);
+    }
+    
+    .search-examples {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    /* Results Section */
+    #results {
+      min-height: 400px;
+    }
+    
+    .results-info {
+      text-align: center;
+      padding: 20px;
+      font-size: 1.1rem;
+      color: var(--gray);
+    }
+    
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+    }
+    
+    .job-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .job-header {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .job-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    
+    .job-company {
+      font-size: 1.1rem;
+      color: var(--secondary);
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .job-body {
+      padding: 20px;
+    }
+    
+    .job-detail {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .job-icon {
+      width: 24px;
+      margin-right: 12px;
+      color: var(--primary);
+    }
+    
+    .job-footer {
+      padding: 15px 20px;
+      background: #f9fafb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .premium-badge {
+      background: linear-gradient(135deg, var(--accent) 0%, #FFB74D 100%);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .free-badge {
+      background: var(--success);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .apply-btn {
+      background: var(--primary);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+    
+    .apply-btn:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--dark) 0%, #102027 100%);
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 50px;
+      position: relative;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2300a896' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.2;
+    }
+    
+    .footer-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Live Viewers */
+    #liveViewers {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      font-size: 0.9rem;
+      z-index: 99;
+      display: flex;
+      align-items: center;
+    }
+    
+    .viewer-icon {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+    
+    /* Language Box */
+    #langBox {
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      background: white;
+      padding: 10px 15px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      font-size: 0.9rem;
+      z-index: 99;
+      display: flex;
+      align-items: center;
+    }
+    
+    #langSelect {
+      border: none;
+      background: transparent;
+      margin-left: 8px;
+      outline: none;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    /* AI JobBot */
+    #botBox {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .bot-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    
+    .bot-title {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .bot-icon {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+    
+    .minimize-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    
+    .bot-body {
+      padding: 15px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    
+    #chatLog {
+      min-height: 100px;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+    
+    .message {
+      margin-bottom: 12px;
+      padding: 10px 15px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    
+    .user-message {
+      background: #e3f2fd;
+      margin-left: auto;
+      border-bottom-right-radius: 2px;
+    }
+    
+    .bot-message {
+      background: #f1f8e9;
+      margin-right: auto;
+      border-bottom-left-radius: 2px;
+    }
+    
+    .bot-input-container {
+      display: flex;
+      border-top: 1px solid #eee;
+      padding: 10px 15px;
+    }
+    
+    #chatInput {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 50px;
+      outline: none;
+      font-size: 0.95rem;
+    }
+    
+    #sendButton {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    #sendButton:hover {
+      background: var(--secondary);
+      transform: rotate(15deg);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .job-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      #botBox {
+        width: calc(100% - 40px);
+        right: 20px;
+        bottom: 80px;
+      }
+      
+      #langBox {
+        bottom: 340px;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+      }
+      
+      .search-container {
+        flex-direction: column;
+      }
+      
+      #searchInput {
+        border-radius: 10px;
+        border-right: 2px solid var(--primary);
+        margin-bottom: 10px;
+      }
+      
+      #searchButton {
+        border-radius: 10px;
+        padding: 12px;
+      }
+    }
+    
+    /* Animation */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    /* Loading animation */
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+    
+    .loader-circle {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
 <header>
-  <h1>JobSniper X</h1>
-  <p>Sniping real jobs fast with AI smarts!</p>
+  <div class="logo-container">
+    <div class="logo">🎯</div>
+    <div>
+      <h1>JobSniper X</h1>
+      <p class="tagline">Sniping real jobs with AI, fast & smart. Powered by RapidAPI.</p>
+    </div>
+  </div>
 </header>
 
 <nav>
-  <a href="index.html">🏠 Home</a>
-  <a href="about.html">📖 About</a>
-  <a href="contact.html">📩 Contact</a>
+  <div class="nav-container">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="premium.html"><i class="fas fa-crown"></i> Premium Jobs</a>
+  </div>
 </nav>
 
-<div id="searchBox">
-  <input type="text" id="searchInput" placeholder="🔍 Search job titles (e.g. driver, admin, remote)">
+<div class="container">
+  <div id="searchBox">
+    <h2 class="search-title">Find Your Dream Job Today</h2>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="🔍 Search job titles (e.g. driver, admin, remote, developer)">
+      <button id="searchButton"><i class="fas fa-search"></i></button>
+    </div>
+    <p class="search-examples">Try: driver, remote, marketing, developer, designer, nurse, etc.</p>
+  </div>
+
+  <div id="results">
+    <div class="loader">
+      <div class="loader-circle"></div>
+    </div>
+  </div>
 </div>
 
-<div id="results">⏳ Loading jobs...</div>
-
 <footer>
-  <span id="liveViewers">100 people viewing now</span><br>
-  Built by Tiisetso | © 2025 JobSniper X<br>
-  Monetized via ShrinkMe | Powered by RapidAPI & AI Bot<br>
-  📧 Contact: jobs@etherealink.com
+  <div class="footer-content">
+    <div id="liveViewers">
+      <i class="fas fa-eye viewer-icon"></i>
+      <span id="viewerCount">100</span> people viewing now
+    </div>
+    <p>Built by Tiisetso | © 2025 JobSniper X</p>
+    <p>Monetized via ShrinkMe | Powered by RapidAPI & AI Bot</p>
+    <p><i class="fas fa-envelope"></i> Contact: jobs@etherealink.com</p>
+  </div>
 </footer>
 
-<!-- 🌐 Language Switch -->
+<!-- Language Switch -->
 <div id="langBox">
-  🌐 Language:
+  <i class="fas fa-globe"></i>
   <select id="langSelect">
     <option value="en">English</option>
     <option value="zu">Zulu</option>
@@ -62,91 +604,263 @@
   </select>
 </div>
 
-<!-- 🤖 AI JobBot -->
+<!-- AI JobBot -->
 <div id="botBox">
-  <strong>💬 Ask JobBot</strong>
-  <div id="chatLog">Hi! Ask me how to apply, or search jobs.</div>
-  <input type="text" id="chatInput" placeholder="Ask something..." onkeydown="if(event.key==='Enter') jobBot()">
+  <div class="bot-header">
+    <div class="bot-title">
+      <i class="fas fa-robot bot-icon"></i>
+      <span>JobBot Assistant</span>
+    </div>
+    <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+  </div>
+  <div class="bot-body">
+    <div id="chatLog">
+      <div class="message bot-message">
+        <strong>JobBot:</strong> Hi there! I can help you find jobs, answer questions, and guide you through the application process. What are you looking for?
+      </div>
+    </div>
+    <div class="bot-input-container">
+      <input type="text" id="chatInput" placeholder="Ask something...">
+      <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
 </div>
 
 <script>
 const RAPID_API_KEY = "be05ad0d85mshe8a36833da7731ep19fffbjsne1c412115bbc";
 const resultsDiv = document.getElementById("results");
+const searchInput = document.getElementById("searchInput");
+const searchButton = document.getElementById("searchButton");
+const chatInput = document.getElementById("chatInput");
+const sendButton = document.getElementById("sendButton");
+const viewerCount = document.getElementById("viewerCount");
 
-async function fetchJobs(query = "driver") {
-  resultsDiv.innerHTML = "⏳ Searching for '" + query + "'...";
-  const res = await fetch("https://jsearch.p.rapidapi.com/search?query=" + encodeURIComponent(query) + "&num_pages=1", {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": RAPID_API_KEY,
-      "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
+// Initialize with popular job categories
+const popularCategories = ["developer", "designer", "marketing", "remote", "driver", "nurse", "admin"];
+let currentCategoryIndex = 0;
+
+// Rotate through popular categories in search placeholder
+function rotatePlaceholder() {
+  searchInput.placeholder = `🔍 Search job titles (e.g. ${popularCategories[currentCategoryIndex]})`;
+  currentCategoryIndex = (currentCategoryIndex + 1) % popularCategories.length;
+}
+
+setInterval(rotatePlaceholder, 2000);
+setTimeout(rotatePlaceholder, 100);
+
+// Fetch jobs from API
+async function fetchJobs(query = "developer") {
+  resultsDiv.innerHTML = `
+    <div class="loader">
+      <div class="loader-circle"></div>
+    </div>
+  `;
+  
+  try {
+    const res = await fetch("https://jsearch.p.rapidapi.com/search?query=" + encodeURIComponent(query) + "&num_pages=1", {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": RAPID_API_KEY,
+        "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
+      }
+    });
+    
+    if (!res.ok) {
+      throw new Error(`API error: ${res.status}`);
     }
-  });
-  const data = await res.json();
-  const jobs = data.data || [];
-  if (jobs.length === 0) {
-    resultsDiv.innerHTML = "❌ No jobs found.";
-    return;
-  }
-  resultsDiv.innerHTML = "";
-  jobs.forEach((job, i) => {
-    const premium = i % 2 === 0 ? `✅ PREMIUM – <a href="https://shrinkme.ink/TGmiWcp" target="_blank">Unlock</a>` : "FREE";
-    resultsDiv.innerHTML += `
-      <div class="job-card">
-        <h3>${job.job_title}</h3>
-        <p><strong>Company:</strong> ${job.employer_name}</p>
-        <p><strong>Location:</strong> ${job.job_city || 'Anywhere'}</p>
-        <p><strong>Level:</strong> ${premium}</p>
-        <a href="${job.job_apply_link}" target="_blank">Apply Now</a>
+    
+    const data = await res.json();
+    const jobs = data.data || [];
+    
+    if (jobs.length === 0) {
+      resultsDiv.innerHTML = `
+        <div class="results-info">
+          <i class="fas fa-search" style="font-size: 3rem; color: #6C757D; margin-bottom: 20px;"></i>
+          <h3>No jobs found for "${query}"</h3>
+          <p>Try searching for something else or check back later.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    displayJobs(jobs, query);
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    resultsDiv.innerHTML = `
+      <div class="results-info">
+        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #E71D36; margin-bottom: 20px;"></i>
+        <h3>Unable to load jobs</h3>
+        <p>Please check your connection and try again.</p>
+        <button onclick="fetchJobs('developer')" style="margin-top: 15px; padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer;">Retry</button>
       </div>
     `;
+  }
+}
+
+// Display jobs in the UI
+function displayJobs(jobs, query) {
+  resultsDiv.innerHTML = `
+    <h2 style="margin-bottom: 20px; color: var(--primary);">${jobs.length} Jobs Found for "${query}"</h2>
+    <div class="job-grid"></div>
+  `;
+  
+  const jobGrid = document.querySelector('.job-grid');
+  
+  jobs.forEach((job, i) => {
+    const isPremium = i % 3 === 0;
+    const badge = isPremium ? 
+      `<span class="premium-badge"><i class="fas fa-crown"></i> PREMIUM</span>` : 
+      `<span class="free-badge"><i class="fas fa-check"></i> FREE</span>`;
+    
+    const applyLink = isPremium ? 
+      `https://shrinkme.ink/TGmiWcp` : 
+      (job.job_apply_link || '#');
+    
+    const jobCard = document.createElement('div');
+    jobCard.className = 'job-card';
+    jobCard.innerHTML = `
+      <div class="job-header">
+        <h3 class="job-title">${job.job_title || 'Unknown Title'}</h3>
+        <p class="job-company">${job.employer_name || 'Unknown Company'}</p>
+      </div>
+      <div class="job-body">
+        <div class="job-detail">
+          <i class="fas fa-map-marker-alt job-icon"></i>
+          <span>${job.job_city || 'Remote'}, ${job.job_country || 'Worldwide'}</span>
+        </div>
+        <div class="job-detail">
+          <i class="fas fa-clock job-icon"></i>
+          <span>${job.job_employment_type || 'Full-time'}</span>
+        </div>
+        <div class="job-detail">
+          <i class="fas fa-calendar-alt job-icon"></i>
+          <span>Posted: ${job.job_posted_at_datetime_utc ? new Date(job.job_posted_at_datetime_utc).toLocaleDateString() : 'Recently'}</span>
+        </div>
+      </div>
+      <div class="job-footer">
+        ${badge}
+        <a href="${applyLink}" target="_blank" class="apply-btn">Apply Now <i class="fas fa-arrow-right"></i></a>
+      </div>
+    `;
+    
+    jobGrid.appendChild(jobCard);
   });
 }
 
-document.getElementById("searchInput").addEventListener("input", e => {
-  fetchJobs(e.target.value);
+// Search functionality
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    fetchJobs(searchInput.value || 'developer');
+  }
 });
 
+searchButton.addEventListener('click', () => {
+  fetchJobs(searchInput.value || 'developer');
+});
+
+// Live viewers counter
 let viewers = Math.floor(Math.random() * 50) + 100;
-setInterval(() => {
-  viewers += Math.floor(Math.random() * 3);
-  document.getElementById("liveViewers").textContent = viewers + " people viewing now";
-}, 8000);
-
-// === Mini AI Bot ===
-function jobBot() {
-  const user = document.getElementById("chatInput").value.toLowerCase();
-  const log = document.getElementById("chatLog");
-  const lang = document.getElementById("langSelect").value;
-
-  const t = {
-    en: {
-      apply: "📝 Tap 'Apply Now' under any job.",
-      driver: "🚕 Search 'driver' in the bar above.",
-      help: "👋 Type what job you need, I'll help.",
-      contact: "📩 Email us at jobs@etherealink.com",
-      default: "🤖 Ask me about jobs or how to apply!"
-    },
-    zu: { apply: "📝 Chofoza 'Apply Now'", driver: "🚕 Sesha 'driver' phezulu.", help: "👋 Ngizokusiza. Buza nje.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ngemisebenzi." },
-    st: { apply: "📝 Tobetsa 'Apply Now'", driver: "🚕 Batla 'driver' holimo.", help: "👋 Re botse. Ke teng.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ka mesebetsi." },
-    xh: { apply: "📝 Cofa 'Apply Now'", driver: "🚕 Bhala 'driver' phezulu.", help: "👋 Ndilapha ukukunceda.", contact: "📩 jobs@etherealink.com", default: "🤖 Buza ngemisebenzi." },
-    af: { apply: "📝 Klik 'Apply Now'", driver: "🚕 Tik 'driver' bo.", help: "👋 Ek help jou nou-nou.", contact: "📩 jobs@etherealink.com", default: "🤖 Vra enige vraag." }
-  };
-
-  const replies = t[lang] || t.en;
-  let response = replies.default;
-  if (user.includes("apply")) response = replies.apply;
-  else if (user.includes("driver")) response = replies.driver;
-  else if (user.includes("help")) response = replies.help;
-  else if (user.includes("contact")) response = replies.contact;
-
-  log.innerHTML += `<div><strong>You:</strong> ${user}</div><div><strong>Bot:</strong> ${response}</div><br>`;
-  document.getElementById("chatInput").value = "";
-  log.scrollTop = log.scrollHeight;
+function updateViewerCount() {
+  viewers += Math.floor(Math.random() * 3) - 1; // Random small change
+  viewers = Math.max(80, viewers); // Ensure it doesn't go too low
+  viewerCount.textContent = viewers;
 }
 
-// Start with default jobs
-fetchJobs();
+setInterval(updateViewerCount, 8000);
+setTimeout(updateViewerCount, 100);
+
+// AI JobBot functionality
+function jobBot() {
+  const userInput = chatInput.value.trim();
+  if (!userInput) return;
+  
+  const chatLog = document.getElementById("chatLog");
+  const lang = document.getElementById("langSelect").value;
+  
+  // Add user message to chat
+  const userMessage = document.createElement('div');
+  userMessage.className = 'message user-message';
+  userMessage.innerHTML = `<strong>You:</strong> ${userInput}`;
+  chatLog.appendChild(userMessage);
+  
+  // Bot responses in different languages
+  const responses = {
+    en: {
+      apply: "To apply, click the 'Apply Now' button on any job listing. For premium jobs, you'll need to unlock access first.",
+      driver: "I found several driver positions. Try searching 'driver' in the search bar above to see all available opportunities.",
+      help: "I can help you search for jobs, understand application processes, and answer questions about JobSniper X. What do you need help with?",
+      contact: "You can contact us at jobs@etherealink.com. We typically respond within 24 hours.",
+      premium: "Premium jobs are high-quality listings from top employers. Unlock them by clicking the premium link in any job card.",
+      default: "I can help you find jobs and answer questions about the application process. What would you like to know?"
+    },
+    zu: {
+      apply: "Ukuze usuleke, chofoza inkinobho ethi 'Apply Now' kunoma iyiphi isikhangiso somsebenzi.",
+      driver: "Ngithole izikhundla ezimbalwa zokushayela. Zama usesho 'driver' ebhokisini lokusesha elingenhla ukuze ubone zonke izithuba zomsebenzi ezitholakalayo.",
+      default: "Ngingakusiza ukuthi uthole imisebenzi, uqonde izinqubo zokufaka isicelo, futhi uphendule imibuzo mayelana ne-JobSniper X. Yini odinga usizo ngayo?"
+    },
+    st: {
+      apply: "Ho kopa, tobetsa konopo ea 'Apply Now' ho phatlalatso efe kapa efe ea mosebetsi.",
+      default: "Nka u thusa ho fumana mesebetsi, ho utloisisa mekhoa ea ho kopa, le ho araba lipotso mabapi le JobSniper X. U hloka thuso ka'ng?"
+    },
+    xh: {
+      apply: "Ukuze ucande, cofa iqhosha elithi 'Apply Now' kuyo nayiphi na indawo yomsebenzi.",
+      default: "Ndinokukunceda ukuba ufumane imisebenzi, uqonde iinkqubo zokucela, kwaye uphendule imibuzo malunga ne-JobSniper X. Yintoni oyifunayo uncedo ngayo?"
+    },
+    af: {
+      apply: "Om aansoek, klik die 'Apply Now' knoppie op enige werksaanbieding.",
+      default: "Ek kan jou help om werk te soek, aansoekprosesse te verstaan en vrae oor JobSniper X te beantwoord. Waarmee kan ek help?"
+    }
+  };
+  
+  const langResponses = responses[lang] || responses.en;
+  let response = langResponses.default;
+  const userText = userInput.toLowerCase();
+  
+  if (userText.includes("apply") || userText.includes("application")) response = langResponses.apply;
+  else if (userText.includes("driver") || userText.includes("delivery")) response = langResponses.driver || langResponses.default;
+  else if (userText.includes("help") || userText.includes("how")) response = langResponses.help || langResponses.default;
+  else if (userText.includes("contact") || userText.includes("email")) response = langResponses.contact || langResponses.default;
+  else if (userText.includes("premium") || userText.includes("unlock")) response = langResponses.premium || langResponses.default;
+  
+  // Add bot response to chat
+  setTimeout(() => {
+    const botMessage = document.createElement('div');
+    botMessage.className = 'message bot-message';
+    botMessage.innerHTML = `<strong>JobBot:</strong> ${response}`;
+    chatLog.appendChild(botMessage);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }, 800);
+  
+  // Clear input
+  chatInput.value = "";
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+// Event listeners for the bot
+chatInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') jobBot();
+});
+
+sendButton.addEventListener('click', jobBot);
+
+// Minimize bot functionality
+const minimizeBtn = document.querySelector('.minimize-btn');
+const botBody = document.querySelector('.bot-body');
+let isMinimized = false;
+
+minimizeBtn.addEventListener('click', () => {
+  if (isMinimized) {
+    botBody.style.display = 'block';
+    minimizeBtn.innerHTML = '<i class="fas fa-minus"></i>';
+  } else {
+    botBody.style.display = 'none';
+    minimizeBtn.innerHTML = '<i class="fas fa-plus"></i>';
+  }
+  isMinimized = !isMinimized;
+});
+
+// Initialize with some jobs
+fetchJobs("developer");
 </script>
 </body>
-</html>
+  </html>
